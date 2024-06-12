@@ -3,13 +3,13 @@
 #    one init container will be created to copy the files to your app's container.
 #  - Grant the necessary access to the files in the `/instrumentation` directory.
 FROM alpine:latest as build
-RUN apk update && apk add ca-certificates
-ARG VERSION
+RUN apk --no-cache add ca-certificates
+ARG AGENT_VERSION
 ARG LIBC
 WORKDIR /instrumentation
 COPY php-agent-download.sh .
 RUN chmod +x php-agent-download.sh
-RUN ./php-agent-download.sh $LIBC $VERSION
+RUN ./php-agent-download.sh $LIBC $AGENT_VERSION
 RUN rm php-agent-download.sh
 
 FROM busybox
